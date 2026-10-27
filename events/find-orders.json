@@ -1,0 +1,8 @@
+{
+  "httpMethod": "GET",
+  "path": "/orders",
+  "pathParameters": null,
+  "queryStringParameters": { "customerId": "CUST-42" },
+  "body": null,
+  "isBase64Encoded": false
+}

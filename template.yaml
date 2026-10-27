@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Orders REST API for the serverless workshop
+
+Globals:
+  Function:
+    Runtime: java17
+    MemorySize: 512
+    Timeout: 15
+    Environment:
+      Variables:
+        LOG_LEVEL: INFO
+
+Resources:
+  OrdersApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      EndpointConfiguration: REGIONAL
+      Cors: "'*'"
+
+  OrdersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: com.example.orders.adapter.OrderApiHandler::handleRequest
+      Events:
+        CreateOrder:
+          Type: Api
+          Properties: { RestApiId: !Ref OrdersApi, Path: /orders, Method: post }
+        FindOrders:
+          Type: Api
+          Properties: { RestApiId: !Ref OrdersApi, Path: /orders, Method: get }
+        GetOrder:
+          Type: Api
+          Properties: { RestApiId: !Ref OrdersApi, Path: /orders/{id}, Method: get }
+        DeleteOrder:
+          Type: Api
+          Properties: { RestApiId: !Ref OrdersApi, Path: /orders/{id}, Method: delete }
+
+Outputs:
+  ApiUrl:
+    Description: Base URL for the deployed API
+    Value: !Sub https://${OrdersApi}.execute-api.${AWS::Region}.amazonaws.com/Prod
+  FunctionName:
+    Value: !Ref OrdersFunction

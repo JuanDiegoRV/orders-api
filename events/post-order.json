@@ -1,0 +1,9 @@
+{
+  "httpMethod": "POST",
+  "path": "/orders",
+  "headers": { "content-type": "application/json" },
+  "pathParameters": null,
+  "queryStringParameters": null,
+  "body": "{\"customerId\":\"CUST-42\",\"product\":\"MacBook Air\",\"quantity\":1}",
+  "isBase64Encoded": false
+}
